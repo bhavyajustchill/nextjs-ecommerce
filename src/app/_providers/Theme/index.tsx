@@ -15,19 +15,19 @@ const ThemeContext = createContext(initialContext)
 
 export const ThemeProvider: React.FC<{ children?: React.ReactNode }> = ({ children }) => {
   const [theme, setThemeState] = useState<Theme | undefined>(
-    canUseDOM ? (document.documentElement.getAttribute('data-theme') as Theme) : undefined,
+    canUseDOM ? ('light' as Theme) : undefined,
   )
 
   const setTheme = useCallback((themeToSet: Theme | null) => {
     if (themeToSet === null) {
       window.localStorage.removeItem(themeLocalStorageKey)
-      const implicitPreference = getImplicitPreference()
+      const implicitPreference = 'light'
       document.documentElement.setAttribute('data-theme', implicitPreference || '')
       if (implicitPreference) setThemeState(implicitPreference)
     } else {
-      setThemeState(themeToSet)
-      window.localStorage.setItem(themeLocalStorageKey, themeToSet)
-      document.documentElement.setAttribute('data-theme', themeToSet)
+      setThemeState('light')
+      window.localStorage.setItem(themeLocalStorageKey, 'light')
+      document.documentElement.setAttribute('data-theme', 'light')
     }
   }, [])
 
@@ -45,7 +45,7 @@ export const ThemeProvider: React.FC<{ children?: React.ReactNode }> = ({ childr
       }
     }
 
-    document.documentElement.setAttribute('data-theme', themeToSet)
+    document.documentElement.setAttribute('data-theme', 'light')
     setThemeState(themeToSet)
   }, [])
 
